@@ -1,0 +1,4 @@
+This is a simple snap package of Glowing Bear (https://github.com/glowing-bear/glowing-bear)
+that is self-contained to run locally without depending on another web server.
+
+It packages the latest GIT snapshot of Glowing Bear.

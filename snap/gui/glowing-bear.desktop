@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Glowing Bear
+Version=1.0
+Comment=Weechat Relay
+Exec=glowing-bear-aio.glowing-bear
+Icon=${SNAP}/meta/gui/glowing-bear.png
+Type=Application
+Categories=Network;Internet;InstantMessaging;
+Terminal=False
+X-GNOME-UsesNotifications=true
+Keywords=IRC;Internet;Weechat;chat;talk

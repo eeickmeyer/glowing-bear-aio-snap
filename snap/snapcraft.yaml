@@ -1,0 +1,70 @@
+name: glowing-bear-aio
+version: 10.0
+title: Glowing Bear
+summary: Glowing Bear
+description: Electron-based Weechat Relay
+platforms:
+  amd64:
+    build-on: amd64
+    build-for: amd64
+base: core24
+grade: stable
+confinement: strict
+plugs:
+  gnome-46-2404:
+    interface: content
+    target: $SNAP/gnome-platform
+    default-provider: gnome-46-2404
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
+parts:
+  glowing-bear:
+    source: https://github.com/glowing-bear/glowing-bear/archive/refs/heads/master.tar.gz
+    plugin: dump
+    override-build: |
+      patch -p1 < $SNAPCRAFT_PROJECT_DIR/snap/local/add-electron-bits.patch
+      cp $SNAPCRAFT_PROJECT_DIR/snap/local/electron.js .
+      npm install
+      npm run build
+      npm run build-electron
+      cp -R dist/linux-unpacked $SNAPCRAFT_PRIME
+    override-prime: |
+      craftctl default
+      cp $SNAPCRAFT_PROJECT_DIR/snap/local/*.sh $SNAPCRAFT_PRIME
+    build-packages:
+      - npm
+    stage-packages:
+      - glib-networking
+      - libproxy1v5
+apps:
+  glowing-bear:
+    command: command.sh
+    extensions: [gnome]
+    plugs:
+      - desktop
+      - desktop-legacy
+      - home
+      - x11
+      - wayland
+      - unity7
+      - browser-support
+      - network
+      - gsettings
+      - audio-playback
+      - pulseaudio
+      - opengl
+      - removable-media
+    environment:
+      PATH: $SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH
+      SNAP_DESKTOP_RUNTIME: $SNAP/gnome-platform
+      LD_LIBRARY_PATH: $SNAP_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu
