@@ -1,8 +1,9 @@
 const electron = require('electron');
-const { app, BrowserWindow } = electron;
+const { app, BrowserWindow, shell, Notification } = electron;
 
 let mainWindow;
 
+app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required")
 app.on('ready', () => {
 
     mainWindow = new BrowserWindow({
@@ -13,6 +14,11 @@ app.on('ready', () => {
 
     mainWindow.setTitle('Glowing Bear');
     mainWindow.loadFile('build/index.html');
+
+    mainWindow.webContents.setWindowOpenHandler((details) => {
+        shell.openExternal(details.url);
+        return { action: 'deny' }
+    });
 
     mainWindow.on('closed', () => {
         mainWindow = null;
