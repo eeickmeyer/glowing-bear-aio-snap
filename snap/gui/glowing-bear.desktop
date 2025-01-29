@@ -6,6 +6,6 @@ Exec=glowing-bear-aio.glowing-bear
 Icon=${SNAP}/meta/gui/glowing-bear.png
 Type=Application
 Categories=Network;Internet;InstantMessaging;
-Terminal=False
+Terminal=false
 X-GNOME-UsesNotifications=true
 Keywords=IRC;Internet;Weechat;chat;talk
